@@ -66,10 +66,8 @@ foreach ($lines as $line) {
 
             echo $fileName;
             echo PHP_EOL;
-            sleep(2);
+            sleep(10);
             // preg_match_all('/<p>([^<]*)<\/p>/', $fileContents, $fileMatches);
         }
-
     }
-
 }
