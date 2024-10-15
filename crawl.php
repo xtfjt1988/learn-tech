@@ -41,7 +41,7 @@ foreach ($lines as $line) {
     
     $line = str_replace(' ', '%20', $line);
     $curlUrl = $url. $line;
-    
+
     $response = file_get_contents($curlUrl);
     mkdir($folderName, 0777, true);
     preg_match_all('/<a class="menu-item" id="([^"]*)" href="([^"]*)">([^<]*)<\/a>/', $response, $matches);
@@ -74,7 +74,7 @@ foreach ($lines as $line) {
 
             file_put_contents($fileName, $text);
 
-            sleep(10);
+            sleep(5);
             
             // preg_match_all('/<p>([^<]*)<\/p>/', $fileContents, $fileMatches);
         }
