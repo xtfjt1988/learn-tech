@@ -39,7 +39,9 @@ foreach ($lines as $line) {
     $folderName = str_replace(' ', '', $line);
     $folderName = "/Users/01397713/Documents/github/learn-tech".$folderName;
     
-    $curlUrl = $url. urlencode($line);
+    $line = str_replace(' ', '%20', $line);
+    $curlUrl = $url. $line;
+    
     $response = file_get_contents($curlUrl);
     mkdir($folderName, 0777, true);
     preg_match_all('/<a class="menu-item" id="([^"]*)" href="([^"]*)">([^<]*)<\/a>/', $response, $matches);
@@ -49,6 +51,15 @@ foreach ($lines as $line) {
         $urlList = $matches[2];
 
         foreach($fileNameList as $key => $name) {
+
+            $fileName = str_replace(' ', '', $name);
+            $fileName = $folderName . '/'. $fileName;
+
+            echo $fileName;
+            echo PHP_EOL;
+
+            if(filesize($fileName) > 0) continue; 
+
             $fileUlr = $url . $urlList[$key];
             $fileContents = file_get_contents($fileUlr);
 
@@ -61,12 +72,10 @@ foreach ($lines as $line) {
             libxml_clear_errors();
             $text = $doc->textContent;
 
-            $fileName = str_replace(' ', '', $name);
-            file_put_contents($folderName . '/'. $fileName, $text);
+            file_put_contents($fileName, $text);
 
-            echo $fileName;
-            echo PHP_EOL;
             sleep(10);
+            
             // preg_match_all('/<p>([^<]*)<\/p>/', $fileContents, $fileMatches);
         }
     }
