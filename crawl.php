@@ -1,6 +1,6 @@
 <?php
 // Define the URL
-$url = "https://learn.lianglianglee.com/";
+$url = "https://learn.lianglianglee.com";
 
 # 1 获取文件主目录
 // $response = file_get_contents($url);
@@ -40,7 +40,7 @@ foreach ($lines as $line) {
     $folderName = "/Users/01397713/Documents/github/learn-tech".$folderName;
     
     $line = str_replace(' ', '%20', $line);
-    $curlUrl = $url. $line;
+    $curlUrl = $url . $line;
 
     $response = file_get_contents($curlUrl);
     mkdir($folderName, 0777, true);
