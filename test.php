@@ -1,6 +1,6 @@
 <?php
 // Define the URL
-$url = "https://learn.lianglianglee.com/";
+$url = "https://learn.lianglianglee.com";
 
 # 1 获取文件主目录
 // $response = file_get_contents($url);
@@ -34,6 +34,7 @@ $readmePath = 'README.md';
 // Read the file into an array of lines
 $lines = file($readmePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
+$lines = [$lines[6]];
 foreach ($lines as $line) {
     // Remove spaces from each line
     $folderName = str_replace(' ', '', $line);
@@ -42,4 +43,27 @@ foreach ($lines as $line) {
     $line = str_replace(' ', '%20', $line);
     $curlUrl = $url. $line;
     echo $curlUrl.PHP_EOL;
+
+    $response = file_get_contents($curlUrl);
+    mkdir($folderName, 0777, true);
+    preg_match_all('/<a class="menu-item" id="([^"]*)" href="([^"]*)">([^<]*)<\/a>/', $response, $matches);
+
+    if (isset($matches[1])) {
+        $fileNameList = $matches[1];
+        $urlList = $matches[2];
+
+        foreach($fileNameList as $key => $name) {
+
+            $fileName = str_replace(' ', '', $name);
+            $fileName = $folderName . '/'. $fileName;
+            echo PHP_EOL;
+
+            $uri = str_replace(' ', '%20', html_entity_decode($name));
+            $fileUrl = $url . $line . '/' . $uri;
+
+            echo $fileUrl;
+            echo PHP_EOL;
+        }
+    }
+
 }

@@ -58,7 +58,7 @@ foreach ($lines as $line) {
             echo $fileName;
             echo PHP_EOL;
 
-            $uri = str_replace(' ', '%20', $name);
+            $uri = str_replace(' ', '%20', html_entity_decode($name));
             $fileUrl = $url . $line . '/' . $uri;
 
             if(filesize($fileName) > 0) continue; 
