@@ -58,11 +58,12 @@ foreach ($lines as $line) {
             echo $fileName;
             echo PHP_EOL;
 
+            $uri = str_replace(' ', '%20', $name);
+            $fileUrl = $url . $line . '/' . $uri;
+
             if(filesize($fileName) > 0) continue; 
 
-            $fileUlr = $url . $urlList[$key];
-            $fileContents = file_get_contents($fileUlr);
-
+            $fileContents = file_get_contents($fileUrl);
             preg_match_all('/<div class="book-post">(.*?)<div id="prePage" style="float: left">/s', $fileContents, $divMatchs);
 
             $a = '<meta charset="UTF-8">'.$divMatchs[1][0];
@@ -71,7 +72,6 @@ foreach ($lines as $line) {
             $doc->loadHtml($a);
             libxml_clear_errors();
             $text = $doc->textContent;
-
             file_put_contents($fileName, $text);
 
             sleep(5);
